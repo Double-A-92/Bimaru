@@ -28,8 +28,7 @@ public class FieldButton extends JButton {
 		addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				// Do nothing
 			}
 			
 			@Override
@@ -40,23 +39,27 @@ public class FieldButton extends JButton {
 			
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				// Do nothing
 			}
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				if (arg0.getModifiers() == MouseEvent.BUTTON1_MASK) {
-					if (model.getLastStateChanged() == (model.getFieldState(x, y) + 1) % 3)
-					model.toggleFieldState(x, y);
-					updateButton();
+					int lastStateChanged = model.getLastStateChanged();
+					if (model.getFieldState(x, y) == 0 || (model.getFieldState(x, y) == 1 && lastStateChanged != 1)) {
+						if (!model.isHint(x, y)) {
+							while (model.getFieldState(x, y) != lastStateChanged) {
+								model.toggleFieldState(x, y);
+							}
+							updateButton();
+						}	
+					}
 			    }
 			}
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				// Do nothing
 			}
 		});
 		
