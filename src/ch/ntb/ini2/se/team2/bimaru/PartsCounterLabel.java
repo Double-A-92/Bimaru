@@ -21,9 +21,20 @@ public class PartsCounterLabel extends JLabel {
 	}
 
 	public void updateLabel() {
-		int NumOfShipParts = model.countShipParts(forRow, position);
-		setText(String.valueOf(NumOfShipParts));
+		int numOfRealShipParts = model.countRealShipParts(forRow, position);
+		setText(String.valueOf(numOfRealShipParts));
 		
+		int numOfShipParts = model.countShipParts(forRow, position);
+		int numOfWaterFields = model.countWaterFields(forRow, position);
+		int numOfRealWaterFields = (forRow ? model.getXSize(): model.getYSize())-numOfRealShipParts;
+		
+		if (numOfShipParts > numOfRealShipParts) {
+			setForeground(Color.red);
+		} else if(numOfShipParts == numOfRealShipParts && numOfWaterFields == numOfRealWaterFields) {
+			setForeground(Color.gray);
+		} else {
+			setForeground(Color.black);
+		}
 	}
 	
 }

@@ -1,10 +1,12 @@
 package ch.ntb.ini2.se.team2.bimaru;
 
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 
-public class GameGridView extends JPanel {
+public class GameGridView extends JPanel implements Observer {
 	private static final long serialVersionUID = -4348366816890703134L;
 	int xSize, ySize;
 	FieldButton[][] fields;
@@ -16,6 +18,7 @@ public class GameGridView extends JPanel {
 		fields = new FieldButton[xSize][ySize];	
 		partsCounter = new PartsCounterLabel[2][(xSize > ySize)?xSize:ySize];
 		setLayout(new GridLayout(model.getYSize()+1, model.getXSize()+1, 0, 0));
+		model.addObserver(this);
 		
 		
 		for (int y = 0; y < ySize; y++) {
@@ -38,8 +41,15 @@ public class GameGridView extends JPanel {
 		
 	}
 	
-	public void updateGameGrid() {
-		
+	@Override
+	public void update(Observable model, Object changedField) {
+		if (model instanceof GameGridModel) {
+			int x = ((int[]) changedField)[0];
+			int y = ((int[]) changedField)[1];
+			
+			partsCounter[0][x].updateLabel();
+			partsCounter[1][y].updateLabel();
+		}
 	}
 
 }

@@ -1,8 +1,9 @@
 package ch.ntb.ini2.se.team2.bimaru;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class GameGridModel {
+public class GameGridModel extends Observable{
 	private ArrayList<Ship> ships = new ArrayList<Ship>();
 	private ArrayList<Hint> hints = new ArrayList<Hint>();
 	private int[][] fieldStates;
@@ -33,6 +34,9 @@ public class GameGridModel {
 		if (!isHint(x, y)){
 			fieldStates[x][y] = (fieldStates[x][y] + 1) % 3; // 0: Leer, 1:Wasser, 2:Schiffsteil
 			lastStateChanged = fieldStates[x][y];
+			
+			setChanged();
+			notifyObservers(new int[] {x, y});
 		}
 	}
 	
@@ -82,22 +86,47 @@ public class GameGridModel {
 	}
 	
 	public int countShipParts(boolean forRow, int position) {
-		int NumOfShipParts = 0;
+		return countParts(forRow, position, 2);
+	}
+	
+	public int countWaterFields(boolean forRow, int position) {
+		return countParts(forRow, position, 1);
+	}
+	
+	private int countParts(boolean forRow, int position, int part) {
+		int numOfParts = 0;
+		
+		if (forRow) {
+			for (int x = 0; x < xSize; x++) {
+				if (fieldStates[x][position] == part)
+				numOfParts++;
+			}
+		} else {
+			for (int y = 0; y < ySize; y++) {
+				if (fieldStates[position][y] == part)
+					numOfParts++;
+			}
+		}
+		return numOfParts;
+	}
+	
+	public int countRealShipParts(boolean forRow, int position) {
+		int numOfShipParts = 0;
 		
 		if (forRow) {
 			for (int x = 0; x < xSize; x++) {
 				if (getRealFieldState(x, position) == 2)
-				NumOfShipParts++;
+				numOfShipParts++;
 			}
 		} else {
 			for (int y = 0; y < ySize; y++) {
 				if (getRealFieldState(position, y) == 2)
-					NumOfShipParts++;
+					numOfShipParts++;
 			}
 		}
-		return NumOfShipParts;
+		return numOfShipParts;
 	}
-	
+		
 	private class Ship {
 		int size;
 		int x, y;
