@@ -3,12 +3,20 @@ package ch.ntb.ini2.se.team2.bimaru;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement
 public class GameGridModel extends Observable{
 	private ArrayList<Ship> ships = new ArrayList<Ship>();
 	private ArrayList<Hint> hints = new ArrayList<Hint>();
+	private int xSize;
+	private int ySize;	
+	
 	private int[][] fieldStates;
-	private int xSize, ySize;
 	private int lastStateChanged;
+	
+	public GameGridModel() {}
 	
 	public GameGridModel(int xSize, int ySize){
 		this.xSize = xSize;
@@ -28,7 +36,15 @@ public class GameGridModel extends Observable{
 		hints.add(new Hint(5, 6));
 		hints.add(new Hint(2, 4));
 		this.setHints(hints);
+		
+		fixHintFieldState();
 	}
+	
+	void afterUnmarshal(Unmarshaller u, Object parent) {
+		fieldStates = new int[xSize][ySize];
+		fixHintFieldState();
+	}
+
 	
 	public void toggleFieldState(int x, int y) {
 		if (!isHint(x, y)){
@@ -47,15 +63,23 @@ public class GameGridModel extends Observable{
 	public int getLastStateChanged() {
 		return lastStateChanged;
 	}
-	
+		
 	public int getXSize() {
 		return xSize;
 	}
-	
+
+	public void setXSize(int xSize) {
+		this.xSize = xSize;
+	}
+
 	public int getYSize() {
 		return ySize;
 	}
-	
+
+	public void setYSize(int ySize) {
+		this.ySize = ySize;
+	}
+
 	public int getRealFieldState(int x, int y) {
 		for (Ship ship : ships) {
 			if (ship.isHorizontal) {
@@ -77,13 +101,26 @@ public class GameGridModel extends Observable{
 		this.ships = ships;
 	}
 	
+	@XmlElement(name = "ship")
+	public ArrayList<Ship> getShips() {
+		return this.ships;
+	}
+	
 	public void setHints(ArrayList<Hint> hints) {
 		this.hints = hints;
-		
+	}
+	
+	@XmlElement(name = "hint")
+	public ArrayList<Hint> getHints() {
+		return this.hints;
+	}
+	
+	private void fixHintFieldState() {
 		for (Hint hint : hints) {
 			fieldStates[hint.x][hint.y] = getRealFieldState(hint.x, hint.y);
 		}
 	}
+	
 	
 	public int countShipParts(boolean forRow, int position) {
 		return countParts(forRow, position, 2);
@@ -126,39 +163,93 @@ public class GameGridModel extends Observable{
 		}
 		return numOfShipParts;
 	}
-		
-	private class Ship {
-		int size;
-		int x, y;
-		boolean isHorizontal;
-		
-		public Ship(int x, int y, int size, boolean isHorizontal) {
-			this.x = x;
-			this.y = y;
-			this.size = size;
-			this.isHorizontal = isHorizontal;
-		}
-	}
-	
-	private class Hint {
-		int x, y;
-		
-		public Hint(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-		
-		
-		@Override
-		public boolean equals(Object hint) {
-			if (this.x == ((Hint) hint).x && this.y == ((Hint) hint).y) 
-				return true;
-			return false;
-		}
-	}
-
-	
-	
+			
 }
 
+
+@XmlRootElement(name = "ships")
+class Ship {
+	int size;
+	int x, y;
+	boolean isHorizontal;
+	
+	public Ship() {}
+	
+	public Ship(int x, int y, int size, boolean isHorizontal) {
+		this.x = x;
+		this.y = y;
+		this.size = size;
+		this.isHorizontal = isHorizontal;
+	}
+
+	public int getSize() {
+		return size;
+	}
+
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public boolean isHorizontal() {
+		return isHorizontal;
+	}
+
+	public void setHorizontal(boolean isHorizontal) {
+		this.isHorizontal = isHorizontal;
+	}
+
+}
+
+
+@XmlRootElement(name = "hints")
+class Hint {
+	int x, y;
+	
+	public Hint() {}
+	
+	public Hint(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
+	@Override
+	public boolean equals(Object hint) {
+		if (this.x == ((Hint) hint).x && this.y == ((Hint) hint).y) 
+			return true;
+		return false;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+}
 
