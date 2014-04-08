@@ -1,10 +1,6 @@
 package ch.ntb.ini2.se.team2.bimaru;
 
 import java.awt.Container;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 
 import javax.swing.BoxLayout;
@@ -12,7 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class BimaruGame extends JFrame {
@@ -24,12 +19,10 @@ public class BimaruGame extends JFrame {
 			JAXBContext context = JAXBContext.newInstance(GameGridModel.class);
 			Unmarshaller u = context.createUnmarshaller();
 
-			InputStream is = new FileInputStream("game_1.xml");
+			InputStream is = getClass().getResourceAsStream("/games/game_1.xml");
 			ggm = (GameGridModel) u.unmarshal(is);
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 
 		setTitle("Bimaru");
@@ -45,20 +38,6 @@ public class BimaruGame extends JFrame {
 		pack();
 		setLocationRelativeTo(null);
 		setVisible(true);
-
-		// JABX TEST
-		/*
-		try {
-			File file = new File("game.xml");
-
-			JAXBContext context = JAXBContext.newInstance(GameGridModel.class);
-			Marshaller m = context.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-			m.marshal(new GameGridModel(8, 8), file);
-		} catch (JAXBException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	public static void main(String[] args) {
