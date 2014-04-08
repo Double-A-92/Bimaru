@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gameGridModel>
+    <hint>
+        <x>2</x>
+        <y>3</y>
+    </hint>
+    <hint>
+        <x>5</x>
+        <y>6</y>
+    </hint>
+    <hint>
+        <x>2</x>
+        <y>4</y>
+    </hint>
+    <ship>
+        <horizontal>false</horizontal>
+        <size>4</size>
+        <x>2</x>
+        <y>2</y>
+    </ship>
+    <ship>
+        <horizontal>true</horizontal>
+        <size>2</size>
+        <x>5</x>
+        <y>3</y>
+    </ship>
+    <ship>
+        <horizontal>true</horizontal>
+        <size>3</size>
+        <x>6</x>
+        <y>1</y>
+    </ship>
+    <XSize>15</XSize>
+    <YSize>15</YSize>
+</gameGridModel>
