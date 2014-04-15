@@ -5,17 +5,28 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+/**
+ * Stellt ein einzelnes Feld dar, und zeigt den aktuellen Zustand an.
+ * Ein Klick oder Drag hierauf löst eine Zustandsänderung aus.
+ * 
+ * @author Amedeo Amato
+ */
 public class FieldButton extends JButton {
 	private static final long serialVersionUID = 7730763252504355345L;
 	int buttonState;
 	int x, y;
 	private GameGridModel model;
 	
+	/**
+	 * Erstellt einen neuen 45x45 Pixel grossen FieldButton.
+	 * @param px x-Koordinate
+	 * @param py y-Koordinate
+	 * @param pmodel aktuelles GameGridModel
+	 */
 	public FieldButton(int px, int py, GameGridModel pmodel) {
 		super();
 		setSize(45, 45);
@@ -33,6 +44,7 @@ public class FieldButton extends JButton {
 			
 			@Override
 			public void mousePressed(MouseEvent arg0) {
+				// Normale Zustandsänderung bei Klick
 				model.toggleFieldState(x, y);
 				updateButton();
 			}
@@ -44,7 +56,10 @@ public class FieldButton extends JButton {
 			
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
+				// Bei Mouse-Drag über Feld
 				if (arg0.getModifiers() == MouseEvent.BUTTON1_MASK) {
+					// Wechselt bei mehreren Feldern nur in einen Zustand:
+					// Leer -> Wasser oder Schiff; Wasser -> Schiff oder Leer; Schiff toggelt bei Drag nicht.
 					int lastStateChanged = model.getLastStateChanged();
 					if (model.getFieldState(x, y) == 0 || (model.getFieldState(x, y) == 1 && lastStateChanged != 1)) {
 						if (!model.isHint(x, y)) {
@@ -66,6 +81,9 @@ public class FieldButton extends JButton {
 		updateButton();
 	}
 	
+	/**
+	 * Zeigt je nach Zustand, die entsprechende Graphik auf dem Feld an.
+	 */
 	public void updateButton() {
 		buttonState = model.getFieldState(x, y);
 		
