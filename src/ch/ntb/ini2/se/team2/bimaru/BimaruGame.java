@@ -2,7 +2,6 @@ package ch.ntb.ini2.se.team2.bimaru;
 
 import java.awt.Container;
 import java.io.InputStream;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -10,10 +9,18 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
+/**
+ * Hauptfenster des Spiels.
+ * Erstellt alle nötigen Objekte und stellt die Views in einem Fenster dar.
+ *
+ */
 public class BimaruGame extends JFrame {
 	private static final long serialVersionUID = 2503783248730093300L;
 	private GameGridModel ggm;
 
+	/**
+	 * Erstellt ein neues Spiel.
+	 */
 	public BimaruGame() {
 		try {
 			JAXBContext context = JAXBContext.newInstance(GameGridModel.class);
@@ -33,13 +40,18 @@ public class BimaruGame extends JFrame {
 		contentPane.add(new LevelSelectView(this));
 		contentPane.add(new ToolBarView(this));
 		contentPane.add(new GameGridView(this, ggm));
-		contentPane.add(new AvailableShipsView(this));
+		contentPane.add(new AvailableShipsView(ggm));
 
 		pack();
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
+	/**
+	 * Startet das Spiel.
+	 * @param args Kommandozeilenparameter
+	 */
 	public static void main(String[] args) {
 		new BimaruGame();
 	}
