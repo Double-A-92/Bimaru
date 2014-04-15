@@ -39,7 +39,7 @@ public class BimaruGame extends JFrame {
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.add(new LevelSelectView(this));
 		contentPane.add(new ToolBarView(this));
-		contentPane.add(new GameGridView(this, ggm));
+		contentPane.add(new GameGridView(ggm));
 		contentPane.add(new AvailableShipsView(ggm));
 
 		pack();
