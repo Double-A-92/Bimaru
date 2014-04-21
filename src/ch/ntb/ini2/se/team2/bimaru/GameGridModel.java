@@ -78,6 +78,22 @@ public class GameGridModel extends Observable{
 	}
 	
 	/**
+	 * Setzt den Zustand eines Feldes.
+	 * @param x x-Koorditate (0 ist links)
+	 * @param y y-Koorditate (0 ist oben)
+	 * @param state Zustand des Feldes 
+	 */
+	public void setFieldState(int x, int y, int state) {
+		if (!isHint(x, y)){
+			fieldStates[x][y] = state;
+			lastStateChanged = fieldStates[x][y];
+			
+			setChanged();
+			notifyObservers(new int[] {x, y});
+		}
+	}
+	
+	/**
 	 * Gibt den aktuellen Zustand eines Feldes zurück.
 	 * @param x x-Koorditate (0 ist links)
 	 * @param y y-Koorditate (0 ist oben)

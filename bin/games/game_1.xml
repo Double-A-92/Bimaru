@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gameGridModel>
+    <hint>
+        <x>0</x>
+        <y>0</y>
+    </hint>
+    <hint>
+        <x>9</x>
+        <y>0</y>
+    </hint>
+    <hint>
+        <x>2</x>
+        <y>2</y>
+    </hint>
+    <hint>
+        <x>8</x>
+        <y>8</y>
+    </hint>
+	
+	<ship>
+        <horizontal>true</horizontal>
+        <size>4</size>
+        <x>1</x>
+        <y>0</y>
+    </ship>
+    <ship>
+        <horizontal>false</horizontal>
+        <size>1</size>
+        <x>6</x>
+        <y>0</y>
+    </ship>
+	
+	<ship>
+        <horizontal>false</horizontal>
+        <size>1</size>
+        <x>2</x>
+        <y>2</y>
+    </ship>
+
+	<ship>
+        <horizontal>false</horizontal>
+        <size>2</size>
+        <x>9</x>
+        <y>3</y>
+    </ship>
+	
+	<ship>
+        <horizontal>false</horizontal>
+        <size>1</size>
+        <x>0</x>
+        <y>4</y>
+    </ship>
+	
+    <ship>
+        <horizontal>false</horizontal>
+        <size>2</size>
+        <x>0</x>
+        <y>6</y>
+    </ship>
+	
+	<ship>
+        <horizontal>true</horizontal>
+        <size>3</size>
+        <x>2</x>
+        <y>6</y>
+    </ship>
+	
+	<ship>
+        <horizontal>false</horizontal>
+        <size>2</size>
+        <x>6</x>
+        <y>6</y>
+    </ship>
+	
+	<ship>
+        <horizontal>false</horizontal>
+        <size>3</size>
+        <x>8</x>
+        <y>7</y>
+    </ship>
+	
+	<ship>
+        <horizontal>false</horizontal>
+        <size>1</size>
+        <x>0</x>
+        <y>9</y>
+    </ship>
+    <XSize>10</XSize>
+    <YSize>10</YSize>
+</gameGridModel>

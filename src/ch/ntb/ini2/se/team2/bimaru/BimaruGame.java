@@ -17,6 +17,10 @@ import javax.xml.bind.Unmarshaller;
 public class BimaruGame extends JFrame {
 	private static final long serialVersionUID = 2503783248730093300L;
 	private GameGridModel ggm;
+	private GameGridView view ;
+	public GameGridModel getGGM() {
+		return ggm;
+	}
 
 	/**
 	 * Erstellt ein neues Spiel.
@@ -35,11 +39,12 @@ public class BimaruGame extends JFrame {
 		setTitle("Bimaru");
 		Container contentPane = getContentPane();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+		view=new GameGridView(ggm);
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.add(new LevelSelectView(this));
 		contentPane.add(new ToolBarView(this));
-		contentPane.add(new GameGridView(ggm));
+		
+		contentPane.add(view);
 		contentPane.add(new AvailableShipsView(ggm));
 
 		pack();
@@ -54,5 +59,9 @@ public class BimaruGame extends JFrame {
 	 */
 	public static void main(String[] args) {
 		new BimaruGame();
+	}
+
+	public GameGridView getView() {
+		return view;
 	}
 }
