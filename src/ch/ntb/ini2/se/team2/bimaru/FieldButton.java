@@ -99,8 +99,15 @@ public class FieldButton extends JButton {
 		case 2:
 			setIcon(getScaledImageIcon("/images/ship_part_grey.png"));
 			break;
-		}
 		
+		case 3:
+			setIcon(getScaledImageIcon("/images/water_error.png"));
+			break;
+			
+		case 4:
+			setIcon(getScaledImageIcon("/images/ship_part_error.png"));
+			break;
+		}
 	}
 	
 	private ImageIcon getScaledImageIcon(String path) {
