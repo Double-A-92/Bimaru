@@ -16,15 +16,15 @@ public class ToolBarView extends JPanel implements ActionListener{
 	int errorcount=0;
 	private GameGridModel ggm;
 	private GameGridView view ;
-	JButton b1;
-	JButton b2;
-	JButton b3;
-	JButton b4;
-	JButton b5;
-	JButton b6;
-	JButton b7;
-	JButton b8;
-	JButton b9;
+	JButton undo;
+	JButton redo;
+	JButton eye;
+	JButton refresh;
+	JButton check;
+	JButton clock;
+	JButton help;
+	JButton save;
+	JButton print;
 	
 	public ToolBarView(BimaruGame bimaruGame) {
 		ggm=bimaruGame.getGGM();
@@ -36,58 +36,39 @@ public class ToolBarView extends JPanel implements ActionListener{
 	}
 	
 	public void addButtons(){
-		b1 = new JButton(createIcon("/images/undo.png"));
-		b1.setText("undo");
-		b1.setHideActionText(true);
-		b1.addActionListener(this);
-		add(b1);
-		b2 = new JButton(createIcon("/images/redo.png"));
-		b2.setText("redo");
-		b2.setHideActionText(true);
-		b2.addActionListener(this);
-		add(b2);
-		b3 = new JButton(createIcon("/images/eye.jpg"));
-		b3.setText("eye");
-		b3.setHideActionText(true);
-		b3.addActionListener(this);
-		add(b3);
-		b4 = new JButton(createIcon("/images/refresh.png"));
-		b4.setText("refresh");
-		b4.setHideActionText(true);
-		b4.addActionListener(this);
-		add(b4);
-		b5 = new JButton(createIcon("/images/check.jpg"));
-		b5.setHideActionText(true);
-		b5.setText("check");
-		b5.setHideActionText(true);
-		b5.addActionListener(this);
-		add(b5);
-		b6 = new JButton(createIcon("/images/clock.png"));
-		b6.setText("clock");
-		b6.setHideActionText(true);
-		b6.addActionListener(this);
-		add(b6);
-		b7 = new JButton(createIcon("/images/help.png"));
-		b7.setText("help");
-		b7.setHideActionText(true);
-		b7.addActionListener(this);
-		add(b7);
-		b8 = new JButton(createIcon("/images/save.jpg"));
-		b8.setText("save");
-		b8.setHideActionText(true);
-		b8.addActionListener(this);
-		add(b8);
-		b9 = new JButton(createIcon("/images/print.png"));
-		b9.setText("print");
-		b9.setHideActionText(true);
-		b9.addActionListener(this);
-		add(b9);
+		undo = new JButton(createIcon("/images/undo.png"));
+		undo.addActionListener(this);
+		add(undo);
+		redo = new JButton(createIcon("/images/redo.png"));
+		redo.addActionListener(this);
+		add(redo);
+		eye = new JButton(createIcon("/images/eye.jpg"));
+		eye.addActionListener(this);
+		add(eye);
+		refresh = new JButton(createIcon("/images/refresh.png"));
+		refresh.addActionListener(this);
+		add(refresh);
+		check = new JButton(createIcon("/images/check.jpg"));
+		check.setHideActionText(true);
+		check.addActionListener(this);
+		add(check);
+		clock = new JButton(createIcon("/images/clock.png"));
+		clock.addActionListener(this);
+		add(clock);
+		help = new JButton(createIcon("/images/help.png"));
+		help.addActionListener(this);
+		add(help);
+		save = new JButton(createIcon("/images/save.jpg"));
+		save.addActionListener(this);
+		add(save);
+		print = new JButton(createIcon("/images/print.png"));
+		print.addActionListener(this);
+		add(print);
 	}
 	
 	public void actionPerformed(ActionEvent action){
-		
 		System.out.print("klick");
-		if (action.getSource()==this.b5) {
+		if (action.getSource()==this.check) {
 			
         	checkFieldState();
         	JOptionPane.showMessageDialog(null,
@@ -96,7 +77,7 @@ public class ToolBarView extends JPanel implements ActionListener{
         		    JOptionPane.ERROR_MESSAGE);
         	errorcount=0;
 		}
-		else if (action.getSource()==this.b6){
+		else if (action.getSource()==this.clock){
 		}
 	}
 	
