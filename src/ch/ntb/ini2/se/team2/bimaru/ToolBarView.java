@@ -37,45 +37,55 @@ public class ToolBarView extends JPanel implements ActionListener{
 	
 	public void addButtons(){
 		b1 = new JButton(createIcon("/images/undo.png"));
-		b1.setName("undo");
+		b1.setText("undo");
+		b1.setHideActionText(true);
 		b1.addActionListener(this);
 		add(b1);
 		b2 = new JButton(createIcon("/images/redo.png"));
-		b2.setName("redo");
+		b2.setText("redo");
+		b2.setHideActionText(true);
 		b2.addActionListener(this);
 		add(b2);
 		b3 = new JButton(createIcon("/images/eye.jpg"));
-		b3.setName("eye");
+		b3.setText("eye");
+		b3.setHideActionText(true);
 		b3.addActionListener(this);
 		add(b3);
 		b4 = new JButton(createIcon("/images/refresh.png"));
-		b4.setName("refresh");
+		b4.setText("refresh");
+		b4.setHideActionText(true);
 		b4.addActionListener(this);
 		add(b4);
 		b5 = new JButton(createIcon("/images/check.jpg"));
-		b5.setName("check");
+		b5.setHideActionText(true);
+		b5.setText("check");
+		b5.setHideActionText(true);
 		b5.addActionListener(this);
 		add(b5);
 		b6 = new JButton(createIcon("/images/clock.png"));
-		b6.setName("clock");
+		b6.setText("clock");
+		b6.setHideActionText(true);
 		b6.addActionListener(this);
 		add(b6);
 		b7 = new JButton(createIcon("/images/help.png"));
-		b7.setName("help");
+		b7.setText("help");
+		b7.setHideActionText(true);
 		b7.addActionListener(this);
 		add(b7);
 		b8 = new JButton(createIcon("/images/save.jpg"));
-		b8.setName("save");
+		b8.setText("save");
+		b8.setHideActionText(true);
 		b8.addActionListener(this);
 		add(b8);
 		b9 = new JButton(createIcon("/images/print.png"));
-		b9.setName("print");
+		b9.setText("print");
+		b9.setHideActionText(true);
 		b9.addActionListener(this);
 		add(b9);
 	}
 	
 	public void actionPerformed(ActionEvent action){
-		Object mObject = action.getSource();
+		
 		System.out.print("klick");
 		if (action.getSource()==this.b5) {
 			
