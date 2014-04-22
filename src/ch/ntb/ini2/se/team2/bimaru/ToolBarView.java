@@ -16,6 +16,7 @@ public class ToolBarView extends JPanel implements ActionListener{
 	int errorcount=0;
 	private GameGridModel ggm;
 	private GameGridView view ;
+	
 	JButton undo;
 	JButton redo;
 	JButton eye;
@@ -79,6 +80,16 @@ public class ToolBarView extends JPanel implements ActionListener{
 		}
 		else if (action.getSource()==this.clock){
 		}
+		else if(action.getSource()==this.eye){
+			Object[] options = { "OK", "CANCEL" };
+			int eingabe = JOptionPane.showOptionDialog(null, 
+					 "Showing solution will end this game", "Solution", 
+					 JOptionPane.DEFAULT_OPTION, 
+					 JOptionPane.WARNING_MESSAGE,null, options, options[0]);
+			if(eingabe==0){
+				showSolution();
+			}
+		}
 	}
 	
 	public void checkFieldState(){
@@ -90,6 +101,15 @@ public class ToolBarView extends JPanel implements ActionListener{
 					ggm.setFieldState(i, j, ggm.getFieldState(i, j)+2);
 					view.updateButton(i, j);
 				}				
+			}
+		}
+	}
+	
+	public void showSolution(){
+		for (int i = 0; i < ggm.getXSize(); i++) {
+			for (int j = 0; j < ggm.getYSize(); j++) {
+					ggm.setFieldState(i, j, ggm.getRealFieldState(i, j));
+					view.updateButton(i, j);
 			}
 		}
 	}
