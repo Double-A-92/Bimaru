@@ -35,13 +35,14 @@ public class BimaruGame extends JFrame {
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
-
+		view=new GameGridView(ggm);
 		setTitle("Bimaru");
 		Container contentPane = getContentPane();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		view=new GameGridView(ggm);
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.add(new LevelSelectView(this));
+		
+		
 		contentPane.add(new ToolBarView(this));
 		
 		contentPane.add(view);
@@ -52,6 +53,7 @@ public class BimaruGame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+
 
 	/**
 	 * Startet das Spiel.
