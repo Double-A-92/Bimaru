@@ -37,38 +37,37 @@ public class ToolBarView extends JPanel implements ActionListener{
 	}
 	
 	public void addButtons(){
-		undo = new JButton(createIcon("/images/undo.png"));
+		undo = new JButton(createIcon("/images/icon/undo.png"));
 		undo.addActionListener(this);
-		add(undo);
-		redo = new JButton(createIcon("/images/redo.png"));
+		//add(undo);
+		redo = new JButton(createIcon("/images/icon/redo.png"));
 		redo.addActionListener(this);
-		add(redo);
-		eye = new JButton(createIcon("/images/eye.jpg"));
+		//add(redo);
+		eye = new JButton(createIcon("/images/icon/eye.jpg"));
 		eye.addActionListener(this);
 		add(eye);
-		refresh = new JButton(createIcon("/images/refresh.png"));
+		refresh = new JButton(createIcon("/images/icon/refresh.png"));
 		refresh.addActionListener(this);
-		add(refresh);
-		check = new JButton(createIcon("/images/check.jpg"));
+		//add(refresh);
+		check = new JButton(createIcon("/images/icon/check.jpg"));
 		check.setHideActionText(true);
 		check.addActionListener(this);
 		add(check);
-		clock = new JButton(createIcon("/images/clock.png"));
+		clock = new JButton(createIcon("/images/icon/clock.png"));
 		clock.addActionListener(this);
-		add(clock);
-		help = new JButton(createIcon("/images/help.png"));
+		//add(clock);
+		help = new JButton(createIcon("/images/icon/help.png"));
 		help.addActionListener(this);
-		add(help);
-		save = new JButton(createIcon("/images/save.jpg"));
+		//add(help);
+		save = new JButton(createIcon("/images/icon/save.jpg"));
 		save.addActionListener(this);
-		add(save);
-		print = new JButton(createIcon("/images/print.png"));
+		//add(save);
+		print = new JButton(createIcon("/images/icon/print.png"));
 		print.addActionListener(this);
-		add(print);
+		//add(print);
 	}
 	
 	public void actionPerformed(ActionEvent action){
-		System.out.print("klick");
 		if (action.getSource()==this.check) {
 			
         	checkFieldState();

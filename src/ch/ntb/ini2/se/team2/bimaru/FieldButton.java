@@ -46,7 +46,7 @@ public class FieldButton extends JButton {
 			public void mousePressed(MouseEvent arg0) {
 				// Normale Zustandsänderung bei Klick
 				model.toggleFieldState(x, y);
-				updateButton();
+				//updateButton();
 			}
 			
 			@Override
@@ -66,7 +66,7 @@ public class FieldButton extends JButton {
 							while (model.getFieldState(x, y) != lastStateChanged) {
 								model.toggleFieldState(x, y);
 							}
-							updateButton();
+							//updateButton();
 						}	
 					}
 			    }
@@ -87,25 +87,87 @@ public class FieldButton extends JButton {
 	public void updateButton() {
 		buttonState = model.getFieldState(x, y);
 		
+		//Konflikt?
+		boolean isConflicting = false;
+		if (model.getFieldState(x, y) == 2) {
+			//-Andere Schiffsteile in Diagonale
+			if (model.getFieldState(x-1, y-1) == 2 || model.getFieldState(x-1, y+1) == 2
+		     || model.getFieldState(x+1, y-1) == 2 || model.getFieldState(x+1, y+1) == 2) {
+				isConflicting = true;
+			}
+			
+			//-Angrenzende Schiffsteile aus mehreren Richtungen
+			if ((model.getFieldState(x, y-1) == 2 || model.getFieldState(x, y+1) == 2 ) 
+			 && (model.getFieldState(x-1, y) == 2 || model.getFieldState(x+1, y) == 2)) {
+				isConflicting = true;
+			}
+			
+			//-Passt nicht zu angrenzendem Hinweis
+			if (model.isHint(x, y-1) && (model.getRealShipPartType(x, y-1) == 3 || model.getRealShipPartType(x, y-1) == 0)) {
+				isConflicting = true;
+			} else if (model.isHint(x, y+1) && (model.getRealShipPartType(x, y+1) == 1 || model.getRealShipPartType(x, y+1) == 0)) {
+				isConflicting = true;
+			} else if (model.isHint(x+1, y) && (model.getRealShipPartType(x+1, y) == 4 || model.getRealShipPartType(x+1, y) == 0)) {
+				isConflicting = true;
+			} else if (model.isHint(x-1, y) && (model.getRealShipPartType(x-1, y) == 2 || model.getRealShipPartType(x-1, y) == 0)) {
+				isConflicting = true;
+			}
+		}
+		
+		//Passendes Icon laden und darstellen
+		String iconPath = "/images/tile/";		
+		if (isConflicting) {
+			iconPath = "/images/error_tile/conflict/";
+		} else if (buttonState == 3 || buttonState == 4) {
+			iconPath = "/images/error_tile/wrong/";
+		}
+		
 		switch (buttonState) {
 		case 0:
-			setIcon(getScaledImageIcon("/images/empty.png"));
-			break;
-		
+			setIcon(getScaledImageIcon("/images/tile/empty.png"));
+			break;	
 		case 1:
-			setIcon(getScaledImageIcon("/images/water.png"));
+			setIcon(getScaledImageIcon("/images/tile/water.png"));
 			break;
-		
 		case 2:
-			setIcon(getScaledImageIcon("/images/ship_part_grey.png"));
-			break;
-		
-		case 3:
-			setIcon(getScaledImageIcon("/images/water_error.png"));
-			break;
-			
 		case 4:
-			setIcon(getScaledImageIcon("/images/ship_part_error.png"));
+			int shipPartType;
+			if (model.isHint(x, y)) {
+				shipPartType = model.getRealShipPartType(x, y);
+			} else {
+				shipPartType = model.getShipPartType(x, y);
+			}
+			
+			switch (shipPartType) {
+			case 0:
+				setIcon(getScaledImageIcon(iconPath+"single_ship.png"));
+				break;
+			case 1:
+				setIcon(getScaledImageIcon(iconPath+"ship_end_up.png"));
+				break;
+			case 2:
+				setIcon(getScaledImageIcon(iconPath+"ship_end_right.png"));	
+				break;
+			case 3:
+				setIcon(getScaledImageIcon(iconPath+"ship_end_down.png"));
+				break;
+			case 4:
+				setIcon(getScaledImageIcon(iconPath+"ship_end_left.png"));
+				break;
+			case 5:
+				setIcon(getScaledImageIcon(iconPath+"ship_part.png"));
+				break;
+			default:
+				if (isConflicting) {
+					setIcon(getScaledImageIcon(iconPath+"ship_part.png"));
+				} else {
+					setIcon(getScaledImageIcon(iconPath+"ship_part_grey.png"));
+				}
+				break;
+			}
+			break;
+		case 3:
+			setIcon(getScaledImageIcon("/images/error_tile/wrong/water.png"));
 			break;
 		}
 	}
@@ -116,10 +178,7 @@ public class FieldButton extends JButton {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
-		}
+		} 
 	}
-	
-	
-	
 	
 }

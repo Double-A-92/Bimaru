@@ -59,9 +59,27 @@ public class GameGridView extends JPanel implements Observer {
 			partsCounter[0][x].updateLabel();
 			partsCounter[1][y].updateLabel();
 			
-		}
-		
+			//Aktualisiert alle umgebenden Felder, des gerade geänderten Felds.
+			int leftBorder = 0;
+			if (x-1 > 0) leftBorder = x-1;
+			
+			int upperBorder = 0;
+			if (y-1 > 0) upperBorder = y-1;
+			
+			int rightBorder = xSize-1;
+			if (x+1 < xSize-1) rightBorder = x+1;
+			
+			int lowerBorder = ySize-1;
+			if (y+1 < ySize-1) lowerBorder = y+1;
+			
+			for (int i = leftBorder; i <= rightBorder; i++) {
+				for (int j = upperBorder; j <= lowerBorder; j++) {
+					fields[i][j].updateButton();					
+				}
+			}
+		}	
 	}
+	
 	public void updateButton(int x,int y){
 		fields[x][y].updateButton();
 	}
