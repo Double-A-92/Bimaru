@@ -82,16 +82,16 @@ public class AvailableShipsView extends JPanel {
 			this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 			try {
 				if (length == 1) {
-					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/single_ship_small.png")))));
+					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/small_tile/single_ship.png")))));
 					
 				} else {
-					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/ship_end_left_small.png")))));
+					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/small_tile/ship_end_left.png")))));
 					
 					for (int i = 0; i < length-2; i++) {
-						this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/ship_part_black_small.png")))));
+						this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/small_tile/ship_part_black.png")))));
 					}
 					
-					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/ship_end_right_small.png"))))); 
+					this.add(new JLabel(new ImageIcon(ImageIO.read(getClass().getResource("/images/small_tile/ship_end_right.png"))))); 
 				}
 			} catch (IOException e) {
 				e.printStackTrace();

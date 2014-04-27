@@ -69,7 +69,7 @@ public class GameGridModel extends Observable{
 	 */
 	public void toggleFieldState(int x, int y) {
 		if (!isHint(x, y)){
-			fieldStates[x][y] = (fieldStates[x][y] + 1) % 3; // 0: Leer, 1:Wasser, 2:Schiffsteil
+			fieldStates[x][y] = (fieldStates[x][y] + 1) % 3; // 0:Leer, 1:Wasser, 2:Schiffsteil
 			lastStateChanged = fieldStates[x][y];
 			
 			setChanged();
@@ -100,6 +100,7 @@ public class GameGridModel extends Observable{
 	 * @return Zustand des Feldes (0=Leer, 1=Wasser, 2=Schiffsteil)
 	 */
 	public int getFieldState(int x, int y) {
+		if (x < 0 || x > xSize-1 || y < 0 || y > ySize-1) return 1; //Wasser wenn Koordinaten ausserhalb des Spielfelds.
 		return fieldStates[x][y];
 	}
 	
@@ -169,6 +170,7 @@ public class GameGridModel extends Observable{
 	 * @return true, wenn das Feld ein Hinweis ist.
 	 */
 	public boolean isHint(int x, int y) {
+		if (x < 0 || x > xSize-1 || y < 0 || y > ySize-1) return false; //Kein Hinweis wenn Koordinaten ausserhalb des Spielfelds.
 		return hints.contains(new Hint(x, y));
 	}
 	
@@ -270,7 +272,87 @@ public class GameGridModel extends Observable{
 			}
 		}
 		return numOfShipParts;
-	}			
+	}	
+	
+	/**
+	 * Gibt an welches Schiffsteil sich an diesen Koordinaten befindet.
+	 * @param x x-Koorditate (0 ist links)
+	 * @param y y-Koorditate (0 ist oben)
+	 * @return Typ des Schiffsteil. -1: Kein, 0: Einzelschiff, 1: Oben, 2: Rechts, 3: Unten, 4: Links, 5: Mitte
+	 */
+	public int getShipPartType(int x, int y) {
+		if (x < 0 || x > xSize-1 || y < 0 || y > ySize-1) return -1; //Kein Typ wenn Koordinaten ausserhalb des Spielfelds.
+		
+		int shipType = -1;
+		if (getFieldState(x, y) == 2) {
+			//-Angrenzende Wasserfelder zählen
+			int waterCounter = 0;
+			if (getFieldState(x, y-1) == 1) waterCounter++;
+			if (getFieldState(x, y+1) == 1) waterCounter++;
+			if (getFieldState(x-1, y) == 1) waterCounter++;
+			if (getFieldState(x+1, y) == 1) waterCounter++;
+			
+			//-Angrenzende Schiffsteile zählen
+			int shipPartCounter = 0;
+			if (getFieldState(x, y-1) == 2) { shipPartCounter++; shipType = 3;}
+			if (getFieldState(x, y+1) == 2) { shipPartCounter++; shipType = 1;}
+			if (getFieldState(x-1, y) == 2) { shipPartCounter++; shipType = 2;}
+			if (getFieldState(x+1, y) == 2) { shipPartCounter++; shipType = 4;}
+			
+			//Auswertung
+			if (waterCounter == 4) { // Einzelschiff
+				shipType = 0;
+			} else if (waterCounter == 3 && shipPartCounter == 1) { //Schiffsende
+				//shipType = shipType;
+			} else if (waterCounter == 2 && shipPartCounter == 2){ //Schiffsmitte
+				shipType = 5;
+			} else { //Undefiniert
+				shipType = -1;
+			}
+		}
+
+		return shipType;
+	}
+	
+	/**
+	 * Gibt an welches Schiffsteil sich tatsächlich an diesen Koordinaten befindet.
+	 * @param x x-Koorditate (0 ist links)
+	 * @param y y-Koorditate (0 ist oben)
+	 * @return Typ des Schiffsteil. -1: Kein, 0: Einzelschiff, 1: Oben, 2: Rechts, 3: Unten, 4: Links, 5: Mitte
+	 */
+	public int getRealShipPartType(int x, int y) {
+		if (x < 0 || x > xSize-1 || y < 0 || y > ySize-1) return -1; //Kein Typ wenn Koordinaten ausserhalb des Spielfelds.
+		
+		int shipType = -1;
+		if (getRealFieldState(x, y) == 2) {
+			//-Angrenzende Wasserfelder zählen
+			int waterCounter = 0;
+			if (getRealFieldState(x, y-1) == 1) waterCounter++;
+			if (getRealFieldState(x, y+1) == 1) waterCounter++;
+			if (getRealFieldState(x-1, y) == 1) waterCounter++;
+			if (getRealFieldState(x+1, y) == 1) waterCounter++;
+			
+			//-Angrenzende Schiffsteile zählen
+			int shipPartCounter = 0;
+			if (getRealFieldState(x, y-1) == 2) { shipPartCounter++; shipType = 3;}
+			if (getRealFieldState(x, y+1) == 2) { shipPartCounter++; shipType = 1;}
+			if (getRealFieldState(x-1, y) == 2) { shipPartCounter++; shipType = 2;}
+			if (getRealFieldState(x+1, y) == 2) { shipPartCounter++; shipType = 4;}
+			
+			//Auswertung
+			if (waterCounter == 4) { // Einzelschiff
+				shipType = 0;
+			} else if (waterCounter == 3 && shipPartCounter == 1) { //Schiffsende
+				//shipType = shipType;
+			} else if (waterCounter == 2 && shipPartCounter == 2){ //Schiffsmitte
+				shipType = 5;
+			} else { //Undefiniert
+				shipType = -1;
+			}
+		}
+
+		return shipType;
+	}
 }
 
 /**
