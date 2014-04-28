@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.HashMap;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ import javax.swing.JButton;
  */
 public class FieldButton extends JButton {
 	private static final long serialVersionUID = 7730763252504355345L;
+	public static HashMap<String, ImageIcon> tileIcons = new HashMap<>();
 	int buttonState;
 	int x, y;
 	private GameGridModel model;
@@ -173,12 +176,17 @@ public class FieldButton extends JButton {
 	}
 	
 	private ImageIcon getScaledImageIcon(String path) {
-		try {
-			return new ImageIcon(ImageIO.read(getClass().getResource(path)).getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} 
+		if (tileIcons.containsKey(path)) {
+			return tileIcons.get(path);
+		} else {
+			try {
+				tileIcons.put(path, new ImageIcon(ImageIO.read(getClass().getResource(path)).getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH)));
+				return tileIcons.get(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			} 
+		}
 	}
 	
 }
