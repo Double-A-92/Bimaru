@@ -23,6 +23,7 @@ public class GameGridModel extends Observable{
 	
 	private int[][] fieldStates;
 	private int lastStateChanged;
+	private long startTime = 0;
 	
 	/**
 	 * Konstruktor der ein Test-Spielfeld erstellt.
@@ -74,6 +75,10 @@ public class GameGridModel extends Observable{
 			
 			setChanged();
 			notifyObservers(new int[] {x, y});
+			
+			if (startTime == 0) {
+				startTime = System.nanoTime();
+			}
 		}
 	}
 	
@@ -352,6 +357,14 @@ public class GameGridModel extends Observable{
 		}
 
 		return shipType;
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
 	}
 }
 

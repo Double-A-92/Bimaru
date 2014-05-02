@@ -8,6 +8,7 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -16,6 +17,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 	int errorcount = 0;
 	private GameGridModel ggm;
 	private GameGridView view;
+	private BimaruGame bimaruGame;
 
 	JButton undo;
 	JButton redo;
@@ -28,6 +30,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 	JButton print;
 
 	public ToolBarView(BimaruGame bimaruGame) {
+		this.bimaruGame = bimaruGame;
 		ggm = bimaruGame.getGGM();
 		this.view = bimaruGame.getView();
 
@@ -55,7 +58,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 		add(check);
 		clock = new JButton(createIcon("/images/icon/clock.png"));
 		clock.addActionListener(this);
-		// add(clock);
+		add(clock);
 		help = new JButton(createIcon("/images/icon/help.png"));
 		help.addActionListener(this);
 		// add(help);
@@ -75,6 +78,12 @@ public class ToolBarView extends JPanel implements ActionListener {
 					+ " error(s)", "Check Result", JOptionPane.ERROR_MESSAGE);
 			errorcount = 0;
 		} else if (action.getSource() == this.clock) {
+			JDialog gameDurationDialog = new JDialog(bimaruGame, "Spieldauer", false);
+			gameDurationDialog.setContentPane(new GameDurationView(bimaruGame, gameDurationDialog));
+			gameDurationDialog.pack();
+			gameDurationDialog.setIconImage(createIcon("/images/icon/clock.png").getImage());
+			gameDurationDialog.setVisible(true);
+			gameDurationDialog.setLocationRelativeTo(bimaruGame.getView());
 		} else if (action.getSource() == this.eye) {
 			Object[] options = { "OK", "CANCEL" };
 			int eingabe = JOptionPane.showOptionDialog(null,
@@ -107,7 +116,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 			ggm.setFieldState(x,y, ggm.getRealFieldState(x,y));
 		}
 
-	
+		ggm.setStartTime(0);
 	}
 
 	public void checkFieldState() {
