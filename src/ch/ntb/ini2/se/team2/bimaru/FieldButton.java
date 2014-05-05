@@ -23,6 +23,7 @@ public class FieldButton extends JButton {
 	int buttonState;
 	int x, y;
 	private GameGridModel model;
+	private boolean canToggel=true;
 	
 	/**
 	 * Erstellt einen neuen 45x45 Pixel grossen FieldButton.
@@ -30,6 +31,7 @@ public class FieldButton extends JButton {
 	 * @param py y-Koordinate
 	 * @param pmodel aktuelles GameGridModel
 	 */
+
 	public FieldButton(int px, int py, GameGridModel pmodel) {
 		super();
 		setSize(45, 45);
@@ -48,7 +50,9 @@ public class FieldButton extends JButton {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// Normale Zustandsänderung bei Klick
-				model.toggleFieldState(x, y);
+				if (canToggel){
+					model.toggleFieldState(x, y);
+				}
 				//updateButton();
 			}
 			
@@ -188,5 +192,10 @@ public class FieldButton extends JButton {
 			} 
 		}
 	}
-	
+	public void stopToggel(){
+		this.canToggel=false;
+	}
+	public void startToggel(){
+		this.canToggel=true;
+	}
 }
