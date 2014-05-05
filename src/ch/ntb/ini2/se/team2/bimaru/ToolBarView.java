@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -15,10 +16,11 @@ import javax.swing.JPanel;
 public class ToolBarView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 6118507465544237331L;
 	int errorcount = 0;
+
+	private BimaruGame bimaruGame;
 	private GameGridModel ggm;
 	private GameGridView view;
-	private BimaruGame bimaruGame;
-
+	
 	JButton undo;
 	JButton redo;
 	JButton eye;
@@ -31,43 +33,28 @@ public class ToolBarView extends JPanel implements ActionListener {
 
 	public ToolBarView(BimaruGame bimaruGame) {
 		this.bimaruGame = bimaruGame;
-		ggm = bimaruGame.getGGM();
-		this.view = bimaruGame.getView();
+		this.ggm=bimaruGame.getGGM();
+		this.view=bimaruGame.getView();
 
 		FlowLayout fl = new FlowLayout();
 		setLayout(fl);
 		addButtons();
 	}
-
+	public void button(JButton button,String name){
+		button = new JButton(createIcon("/images/icon/"+name+".png"));
+		button.addActionListener(this);
+		add(button);
+	}
 	public void addButtons() {
-		undo = new JButton(createIcon("/images/icon/undo.png"));
-		undo.addActionListener(this);
-		// add(undo);
-		redo = new JButton(createIcon("/images/icon/redo.png"));
-		redo.addActionListener(this);
-		// add(redo);
-		eye = new JButton(createIcon("/images/icon/eye.jpg"));
-		eye.addActionListener(this);
-		add(eye);
-		refresh = new JButton(createIcon("/images/icon/refresh.png"));
-		refresh.addActionListener(this);
-		add(refresh);
-		check = new JButton(createIcon("/images/icon/check.jpg"));
-		check.setHideActionText(true);
-		check.addActionListener(this);
-		add(check);
-		clock = new JButton(createIcon("/images/icon/clock.png"));
-		clock.addActionListener(this);
-		add(clock);
-		help = new JButton(createIcon("/images/icon/help.png"));
-		help.addActionListener(this);
-		// add(help);
-		save = new JButton(createIcon("/images/icon/save.jpg"));
-		save.addActionListener(this);
-		// add(save);
-		print = new JButton(createIcon("/images/icon/print.png"));
-		print.addActionListener(this);
-		// add(print);
+		button(eye,"eye");
+		button(refresh,"refresh");
+		button(check,"check");
+		button(clock,"clock");
+//		button(undo,"undo");
+//		button(redo,"redo");
+//		button(help,"help");
+//		button(save,"save");
+//		button(print,"print");
 	}
 
 	public void actionPerformed(ActionEvent action) {
@@ -92,16 +79,17 @@ public class ToolBarView extends JPanel implements ActionListener {
 					null, options, options[0]);
 			if (eingabe == 0) {
 				showSolution();
+				stopToggel(view.getLength());		//stops toogling,length[0]=x,length[1]=y
 			}
 			
 		} else if (action.getSource() == this.refresh) {
 			refresh();
-
 		}
 	}
 	
 	
 	public void refresh(){
+		startToggel(view.getLength());
 		for (int i = 0; i < ggm.getXSize(); i++) {
 			for (int j = 0; j < ggm.getYSize(); j++) {
 				ggm.setFieldState(i, j, 0);
@@ -152,6 +140,18 @@ public class ToolBarView extends JPanel implements ActionListener {
 		} else {
 			System.err.println("Couldn't find image in system: " + path);
 			return null;
+		}
+	}
+	private void stopToggel(int[] length){		//length[0]=x,length[1]=y
+		for(int i=0;i<length[0];i++){
+			for(int j=0;j<length[1];j++)
+			view.getFieldButtons()[i][j].stopToggel();
+		}
+	}
+	private void startToggel(int[] length){		//length[0]=x,length[1]=y
+		for(int i=0;i<length[0];i++){
+			for(int j=0;j<length[1];j++)
+			view.getFieldButtons()[i][j].startToggel();
 		}
 	}
 }

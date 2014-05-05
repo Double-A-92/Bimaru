@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 public class GameGridView extends JPanel implements Observer {
 	private static final long serialVersionUID = -4348366816890703134L;
 	private int xSize, ySize;
-	private FieldButton[][] fields;
+	private FieldButton [][] fields;
 	private PartsCounterLabel[][] partsCounter;
 
 	/**
@@ -83,5 +83,11 @@ public class GameGridView extends JPanel implements Observer {
 	public void updateButton(int x,int y){
 		fields[x][y].updateButton();
 	}
-
+	public int[] getLength(){
+		int [] size = {xSize,ySize};
+		return size;
+	}
+	public FieldButton [][] getFieldButtons(){
+		return fields;
+	}
 }
