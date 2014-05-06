@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.net.URISyntaxException;
 
 public class LevelSelectView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -6070731239912690911L;
@@ -35,7 +36,14 @@ public class LevelSelectView extends JPanel implements ActionListener{
 	}
 
 	public void GameNames(){
-		gameNames = new File("//D:/Studium NTB/Semester 4/Softwareengineering/Bimaru/bin/games").listFiles();
+		
+		try {
+			gameNames = new File(getClass().getResource("/games/").toURI()).listFiles();
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//gameNames = new File("src/games/").listFiles();
 		for( File file : gameNames )
 		    System.out.println( file.getName() );
 	}
