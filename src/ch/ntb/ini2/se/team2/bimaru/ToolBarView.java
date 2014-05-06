@@ -40,24 +40,33 @@ public class ToolBarView extends JPanel implements ActionListener {
 		setLayout(fl);
 		addButtons();
 	}
-	public void button(JButton button,String name){
-		button = new JButton(createIcon("/images/icon/"+name+".png"));
+	
+	public JButton button(String name){
+		JButton button = new JButton(createIcon("/images/icon/"+name+".png"));
 		button.addActionListener(this);
 		add(button);
+		return button;
 	}
+	
 	public void addButtons() {
-		button(eye,"eye");
-		button(refresh,"refresh");
-		button(check,"check");
-		button(clock,"clock");
-//		button(undo,"undo");
-//		button(redo,"redo");
-//		button(help,"help");
-//		button(save,"save");
-//		button(print,"print");
+		eye=button("eye");
+		refresh=button("refresh");
+		check=button("check");
+		clock=button("clock");
+//		undo=button("undo");
+//		redo=button("redo");
+//		help=button("help");
+//		save=button("save");
+//		print=button("print");
 	}
 
 	public void actionPerformed(ActionEvent action) {
+//		if(action.getSource() == this.undo) {}
+//		if(action.getSource() == this.redo) {}
+//		if(action.getSource() == this.help) {}
+//		if(action.getSource() == this.save) {}
+//		if(action.getSource() == this.print) {}
+		
 		if (action.getSource() == this.check) {
 
 			checkFieldState();
@@ -142,12 +151,14 @@ public class ToolBarView extends JPanel implements ActionListener {
 			return null;
 		}
 	}
+	
 	private void stopToggel(int[] length){		//length[0]=x,length[1]=y
 		for(int i=0;i<length[0];i++){
 			for(int j=0;j<length[1];j++)
 			view.getFieldButtons()[i][j].stopToggel();
 		}
 	}
+	
 	private void startToggel(int[] length){		//length[0]=x,length[1]=y
 		for(int i=0;i<length[0];i++){
 			for(int j=0;j<length[1];j++)
