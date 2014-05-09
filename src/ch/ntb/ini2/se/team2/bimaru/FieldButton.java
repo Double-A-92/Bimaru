@@ -23,7 +23,6 @@ public class FieldButton extends JButton {
 	int buttonState;
 	int x, y;
 	private GameGridModel model;
-	private boolean canToggel=true;
 	
 	/**
 	 * Erstellt einen neuen 45x45 Pixel grossen FieldButton.
@@ -50,10 +49,7 @@ public class FieldButton extends JButton {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// Normale Zustandsänderung bei Klick
-				if (canToggel){
-					model.toggleFieldState(x, y);
-				}
-				//updateButton();
+				model.toggleFieldState(x, y);
 			}
 			
 			@Override
@@ -73,7 +69,6 @@ public class FieldButton extends JButton {
 							while (model.getFieldState(x, y) != lastStateChanged) {
 								model.toggleFieldState(x, y);
 							}
-							//updateButton();
 						}	
 					}
 			    }
@@ -180,22 +175,17 @@ public class FieldButton extends JButton {
 	}
 	
 	private ImageIcon getScaledImageIcon(String path) {
-		if (tileIcons.containsKey(path)) {
-			return tileIcons.get(path);
+		String key = path + getWidth() + getHeight();
+		if (tileIcons.containsKey(key)) {
+			return tileIcons.get(key);
 		} else {
 			try {
-				tileIcons.put(path, new ImageIcon(ImageIO.read(getClass().getResource(path)).getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH)));
-				return tileIcons.get(path);
+				tileIcons.put(key, new ImageIcon(ImageIO.read(getClass().getResource(path)).getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH)));
+				return tileIcons.get(key);
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;
 			} 
 		}
-	}
-	public void stopToggel(){
-		this.canToggel=false;
-	}
-	public void startToggel(){
-		this.canToggel=true;
 	}
 }

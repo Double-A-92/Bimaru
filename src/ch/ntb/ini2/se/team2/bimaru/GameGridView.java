@@ -83,11 +83,4 @@ public class GameGridView extends JPanel implements Observer {
 	public void updateButton(int x,int y){
 		fields[x][y].updateButton();
 	}
-	public int[] getLength(){
-		int [] size = {xSize,ySize};
-		return size;
-	}
-	public FieldButton [][] getFieldButtons(){
-		return fields;
-	}
 }
