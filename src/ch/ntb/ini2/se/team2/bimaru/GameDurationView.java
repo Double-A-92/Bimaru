@@ -61,7 +61,7 @@ public class GameDurationView extends JPanel implements Runnable {
 					}
 					updateDisplay = true;
 					pauseButton.setText("Pause");
-					durationDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+					durationDialog.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 					durationDialog.setModalityType(JDialog.ModalityType.MODELESS);
 				}
 				

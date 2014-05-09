@@ -24,6 +24,7 @@ public class GameGridModel extends Observable{
 	private int[][] fieldStates;
 	private int lastStateChanged;
 	private long startTime = 0;
+	private boolean isGameRunning = true;
 	
 	/**
 	 * Konstruktor der ein Test-Spielfeld erstellt.
@@ -69,7 +70,7 @@ public class GameGridModel extends Observable{
 	 * @param y y-Koorditate (0 ist oben)
 	 */
 	public void toggleFieldState(int x, int y) {
-		if (!isHint(x, y)){
+		if (!isHint(x, y) && isGameRunning){
 			fieldStates[x][y] = (fieldStates[x][y] + 1) % 3; // 0:Leer, 1:Wasser, 2:Schiffsteil
 			lastStateChanged = fieldStates[x][y];
 			
@@ -81,7 +82,7 @@ public class GameGridModel extends Observable{
 			}
 		}
 	}
-	
+
 	/**
 	 * Setzt den Zustand eines Feldes.
 	 * @param x x-Koorditate (0 ist links)
@@ -96,6 +97,15 @@ public class GameGridModel extends Observable{
 			setChanged();
 			notifyObservers(new int[] {x, y});
 		}
+	}
+	
+	/**
+	 * Hiermit kann iGameRunning z.B. auf false gesetzt werden wenn das Spiel beendet wird.
+	 * @param isGameRunning
+	 */
+	public void setGameRunning(boolean isGameRunning) {
+		this.isGameRunning = isGameRunning;
+		if (!isGameRunning) startTime = 0;
 	}
 	
 	/**
