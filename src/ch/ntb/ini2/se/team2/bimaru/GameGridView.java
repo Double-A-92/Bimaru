@@ -3,6 +3,8 @@ package ch.ntb.ini2.se.team2.bimaru;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -51,15 +53,15 @@ public class GameGridView extends JPanel implements Observer {
 	}
 	
 	@Override
-	public void update(Observable model, Object changedField) {
-		if (model instanceof GameGridModel) {
+	public void update(Observable observable, Object changedField) {
+		if (observable instanceof GameGridModel) {
 			// Aktualisiert die Feldzähler am Rand
 			int x = ((int[]) changedField)[0];
 			int y = ((int[]) changedField)[1];
 			partsCounter[0][x].updateLabel();
 			partsCounter[1][y].updateLabel();
 			
-			//Aktualisiert alle umgebenden Felder, des gerade geänderten Felds.
+			// Aktualisiert alle umgebenden Felder, des gerade geänderten Felds.
 			int leftBorder = 0;
 			if (x-1 > 0) leftBorder = x-1;
 			
@@ -76,6 +78,13 @@ public class GameGridView extends JPanel implements Observer {
 				for (int j = upperBorder; j <= lowerBorder; j++) {
 					fields[i][j].updateButton();					
 				}
+			}
+			
+			// Anzeigen wenn man gewonnen hat.
+			GameGridModel model = ((GameGridModel) observable);
+			if (model.isSolved()) {
+				JOptionPane.showMessageDialog(this, "Sie haben dieses Spiel korrekt gelöst!", "Gewonnen!",
+						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}	
 	}

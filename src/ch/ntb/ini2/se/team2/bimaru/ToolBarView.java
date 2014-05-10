@@ -20,7 +20,8 @@ public class ToolBarView extends JPanel implements ActionListener {
 	private GameGridView view;
 	private JDialog gameDurationDialog;
 
-	JButton undo, redo, eye, refresh, check, clock, help, save, print;
+	@SuppressWarnings("unused")
+	private JButton undo, redo, eye, refresh, check, clock, help, save, print;
 
 	public ToolBarView(BimaruGame bimaruGame) {
 		this.bimaruGame = bimaruGame;
@@ -92,6 +93,9 @@ public class ToolBarView extends JPanel implements ActionListener {
 	}
 
 	private void refresh() {
+		ggm.setSolved(false);
+		ggm.setStartTime(0);
+		
 		for (int i = 0; i < ggm.getXSize(); i++) {
 			for (int j = 0; j < ggm.getYSize(); j++) {
 				ggm.setFieldState(i, j, 0);
@@ -105,9 +109,8 @@ public class ToolBarView extends JPanel implements ActionListener {
 
 			ggm.setFieldState(x, y, ggm.getRealFieldState(x, y));
 		}
-
-		ggm.setStartTime(0);
-		ggm.setGameRunning(true);
+	
+		ggm.setGameRunning(true);	
 	}
 
 	private void checkFieldState() {
@@ -123,13 +126,14 @@ public class ToolBarView extends JPanel implements ActionListener {
 	}
 
 	private void showSolution() {
+		ggm.setGameRunning(false);
+		ggm.setSolved(false);
 		for (int i = 0; i < ggm.getXSize(); i++) {
 			for (int j = 0; j < ggm.getYSize(); j++) {
 				ggm.setFieldState(i, j, ggm.getRealFieldState(i, j));
 				view.updateButton(i, j);
 			}
 		}
-		ggm.setGameRunning(false);
 	}
 
 	protected static ImageIcon createIcon(String path) {

@@ -2,7 +2,6 @@ package ch.ntb.ini2.se.team2.bimaru;
 
 import java.util.ArrayList;
 import java.util.Observable;
-
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 
@@ -23,8 +22,9 @@ public class GameGridModel extends Observable{
 	
 	private int[][] fieldStates;
 	private int lastStateChanged;
-	private long startTime = 0;
+	private long startTime = 0, endTime = 0;
 	private boolean isGameRunning = true;
+	private boolean isSolved = false;
 	
 	/**
 	 * Konstruktor der ein Test-Spielfeld erstellt.
@@ -73,13 +73,19 @@ public class GameGridModel extends Observable{
 		if (!isHint(x, y) && isGameRunning){
 			fieldStates[x][y] = (fieldStates[x][y] + 1) % 3; // 0:Leer, 1:Wasser, 2:Schiffsteil
 			lastStateChanged = fieldStates[x][y];
-			
-			setChanged();
-			notifyObservers(new int[] {x, y});
-			
+
 			if (startTime == 0) {
 				startTime = System.nanoTime();
 			}
+			
+			isSolved = checkIfGameIsSolved();
+			if (isSolved) {
+				endTime = System.nanoTime();
+				isGameRunning = false;
+			}
+			
+			setChanged();
+			notifyObservers(new int[] {x, y});
 		}
 	}
 
@@ -108,6 +114,10 @@ public class GameGridModel extends Observable{
 		if (!isGameRunning) startTime = 0;
 	}
 	
+	public boolean isGameRunning() {
+		return isGameRunning;
+	}
+
 	/**
 	 * Gibt den aktuellen Zustand eines Feldes zurück.
 	 * @param x x-Koorditate (0 ist links)
@@ -375,6 +385,34 @@ public class GameGridModel extends Observable{
 
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
+	}
+	
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public boolean isSolved() {
+		return isSolved;
+	}
+
+	public void setSolved(boolean isSolved) {
+		this.isSolved = isSolved;
+	}
+	
+	/**
+	 * Überprüft ob das Spiel korrekt gelöst wurde
+	 */
+	private boolean checkIfGameIsSolved() {
+		for (int i = 0; i < xSize; i++) {
+			for (int j = 0; j < ySize; j++) {
+				int fieldState = this.getFieldState(i, j);
+				int realFieldState = this.getRealFieldState(i, j);
+				if ((fieldState == 2 && realFieldState !=2) || (realFieldState == 2 && fieldState != 2)){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }
 
