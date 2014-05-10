@@ -23,6 +23,7 @@ public class GameDurationView extends JPanel implements Runnable {
 	private JLabel durationDisplay;
 	private JDialog durationDialog;
 	private boolean updateDisplay = true;
+	private JButton pauseButton;
 
 	/**
 	 * Erstellt einen neues Panel zur Anzeige der Spieldauer,
@@ -41,7 +42,7 @@ public class GameDurationView extends JPanel implements Runnable {
 		add(durationDisplay);
 
 		//Pause-Button erstellen und einrichten
-		final JButton pauseButton = new JButton("Pause");
+		pauseButton = new JButton("Pause");
 		pauseButton.setPreferredSize(new Dimension(100, 26));
 		pauseButton.addActionListener(new ActionListener() {
 			private long pauseStartTime;
@@ -80,26 +81,44 @@ public class GameDurationView extends JPanel implements Runnable {
 		try {
 			while (true) {
 				//Aktualisiert die Dauer-Anzeige (aktuelle Zeit - Startzeit)
-				if (updateDisplay && game.getGGM().getStartTime() != 0) {
+				if (updateDisplay && game.getGGM().getStartTime() != 0 && !game.getGGM().isSolved()) {
 					long startTime = game.getGGM().getStartTime();
 					long currentTime = System.nanoTime();
 					long duration = currentTime - startTime;
 
-					String formattedDuration = String.format(
-							"%02d:%02d",
-							TimeUnit.NANOSECONDS.toMinutes(duration),
-							TimeUnit.NANOSECONDS.toSeconds(duration)
-									- TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(duration)));
-
-					durationDisplay.setText(formattedDuration);
+					durationDisplay.setText(getFormattedTime(duration));
 				} else if (game.getGGM().getStartTime() == 0) {
 					durationDisplay.setText("00:00");
+				} else if (game.getGGM().isSolved()) {
+					long startTime = game.getGGM().getStartTime();
+					long endTime = game.getGGM().getEndTime();
+					long duration = endTime - startTime;
+					durationDisplay.setText(getFormattedTime(duration));
 				}
+				if (game.getGGM().isGameRunning() && !game.getGGM().isSolved()) {
+					pauseButton.setEnabled(true);
+				} else {
+					pauseButton.setEnabled(false);
+				}
+				
 				Thread.sleep(500);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @param duration Zeitdauer in ns
+	 * @return Zeitstring im Format "mm:ss"
+	 */
+	private String getFormattedTime(long duration) {
+		String formattedDuration = String.format(
+				"%02d:%02d",
+				TimeUnit.NANOSECONDS.toMinutes(duration),
+				TimeUnit.NANOSECONDS.toSeconds(duration)
+						- TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(duration)));
+		return formattedDuration;
 	}
 
 }

@@ -65,7 +65,7 @@ public class FieldButton extends JButton {
 					// Leer -> Wasser oder Schiff; Wasser -> Schiff oder Leer; Schiff toggelt bei Drag nicht.
 					int lastStateChanged = model.getLastStateChanged();
 					if (model.getFieldState(x, y) == 0 || (model.getFieldState(x, y) == 1 && lastStateChanged != 1)) {
-						if (!model.isHint(x, y)) {
+						if (!model.isHint(x, y) && model.isGameRunning()) {
 							while (model.getFieldState(x, y) != lastStateChanged) {
 								model.toggleFieldState(x, y);
 							}
