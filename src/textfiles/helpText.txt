@@ -1,0 +1,22 @@
+Die Regeln:
+Finden Sie die vorgegebene Anzahl Schiffe.
+
+- Die Nummer am Ende jeder Zeile oder Spalte sagt Ihnen, 
+ 	wie viele Felder durch Schiffe besetzt sind.
+
+- Schiffe dürfen sich nicht berühren. Das heisst, jedes Schiff ist vollständig 
+	von Wasser umgeben, soweit es nicht den Rand des Spielfeldes berührt.
+
+Beispiel:
+- Markieren Sie 0-Zeilen und 0-Spalten als Wasser.
+
+- Zeichnen Sie um die Schiffer herum das Wasser ein.
+
+- Erste Schiffe können Sie danach bereits platzieren...
+
+- Volle Zeilen und Spalten streichen.
+
+
+- Jetzt gibt es nur noch eine Möglich-keit, wo sich die Yacht befinden kann.
+
+- Streichen Sie gefundene Schiffe ab.

@@ -4,12 +4,21 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+/**
+ * Erzeugt die Toolbar view mit den buttons oberhalb des Spielfeldes
+ * 
+ * @author Smelt Alexander
+ * @author Egeman Yesil
+ */
 
 public class ToolBarView extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 6118507465544237331L;
@@ -47,7 +56,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 		clock = button("clock");
 		// undo = button("undo");
 		// redo = button("redo");
-		// help = button("help");
+		help = button("help");
 		// save = button("save");
 		// print = button("print");
 	}
@@ -55,7 +64,12 @@ public class ToolBarView extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent action) {
 		// if(action.getSource() == this.undo) {}
 		// if(action.getSource() == this.redo) {}
-		// if(action.getSource() == this.help) {}
+		if(action.getSource() == this.help) {
+			try {
+				new HelpText();
+			} catch (IOException except) {
+			}
+		}
 		// if(action.getSource() == this.save) {}
 		// if(action.getSource() == this.print) {}
 

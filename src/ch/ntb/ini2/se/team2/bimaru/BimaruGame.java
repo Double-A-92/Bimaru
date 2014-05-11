@@ -1,7 +1,10 @@
 package ch.ntb.ini2.se.team2.bimaru;
 
 import java.awt.Container;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -17,8 +20,8 @@ import javax.xml.bind.Unmarshaller;
 public class BimaruGame extends JFrame {
 	private static final long serialVersionUID = 2503783248730093300L;
 	private GameGridModel ggm;
-	private GameGridView view;	
-
+	private GameGridView view;
+	
 	/**
 	 * Erstellt ein neues Spiel.
 	 */
