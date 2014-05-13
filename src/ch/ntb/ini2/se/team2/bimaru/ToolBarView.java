@@ -41,7 +41,14 @@ public class ToolBarView extends JPanel implements ActionListener {
 		setLayout(fl);
 		addButtons();
 	}
-
+	
+	/**
+	 * Gibt den gewünschten Button mit dem dazugehörigen Icon zurück
+	 *  
+	 * @param name Name der Funktion zum Beispiel "refresh" 
+	 * 
+	 * @author Egemen Yesil
+	 */
 	private JButton button(String name) {
 		JButton button = new JButton(createIcon("/images/icon/" + name + ".png"));
 		button.addActionListener(this);
@@ -49,6 +56,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		return button;
 	}
 
+	/**
+	 * Fügt die einzelnen Buttons in den Toolbar ein
+	 * 
+	 * @author Egemen Yesil
+	 */
 	private void addButtons() {
 		eye = button("eye");
 		refresh = button("refresh");
@@ -61,6 +73,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		// print = button("print");
 	}
 
+	/**
+	 * Erweitert die Buttons mit den dazugehörigen Funktionen die beim Drücken ausgeführt werden sollen 
+	 * 
+	 * @author Egemen Yesil
+	 */
 	public void actionPerformed(ActionEvent action) {
 		// if(action.getSource() == this.undo) {}
 		// if(action.getSource() == this.redo) {}
@@ -106,6 +123,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Methode für die Refresh-Funktion
+	 * 
+	 * @author Egemen Yesil
+	 */
 	private void refresh() {
 		ggm.setSolved(false);
 		ggm.setStartTime(0);
@@ -127,6 +149,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		ggm.setGameRunning(true);	
 	}
 
+	/**
+	 * Methode für die Überprüfung der gesetzten Spielfelder
+	 * 
+	 * @author Egemen Yesil
+	 */
 	private void checkFieldState() {
 		for (int i = 0; i < ggm.getXSize(); i++) {
 			for (int j = 0; j < ggm.getYSize(); j++) {
@@ -139,6 +166,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Zeigt die Lösung des Spieles auf dem Spielfeld an 
+	 * 
+	 * @author Egemen Yesil
+	 */
 	private void showSolution() {
 		ggm.setGameRunning(false);
 		ggm.setSolved(false);
@@ -150,6 +182,11 @@ public class ToolBarView extends JPanel implements ActionListener {
 		}
 	}
 
+	/**
+	 * Methode zur Einbindung der Icons für die Buttons für den Toolbar
+	 * 
+	 * @author Egemen Yesil
+	 */
 	protected static ImageIcon createIcon(String path) {
 		URL imgURL = ToolBarView.class.getResource(path); 
 		if (imgURL != null) {
