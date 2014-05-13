@@ -49,6 +49,7 @@ public class GameGridView extends JPanel implements Observer {
 			partsCounter[0][x] = new PartsCounterLabel(false, x, model);
 			partsCounter[0][x].updateLabel();
 			this.add(partsCounter[0][x]);
+			
 		}
 	}
 	

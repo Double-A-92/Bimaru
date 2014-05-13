@@ -26,6 +26,9 @@ public class GameGridModel extends Observable{
 	private boolean isGameRunning = true;
 	private boolean isSolved = false;
 	
+	
+	
+
 	/**
 	 * Konstruktor der ein Test-Spielfeld erstellt.
 	 * @param xSize Horizontale Spielfeld-Grösse
@@ -62,7 +65,6 @@ public class GameGridModel extends Observable{
 		fieldStates = new int[xSize][ySize];
 		fixHintFieldState();
 	}
-
 	
 	/**
 	 * Wechselt den Zustand eines Feldes in den nächsten Zustand.
