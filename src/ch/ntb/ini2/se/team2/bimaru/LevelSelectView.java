@@ -13,13 +13,11 @@ import java.net.URISyntaxException;
 public class LevelSelectView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -6070731239912690911L;
 	
-	//Globale Variable, welches den Namen des Ausgewählten Spiels enthält
-	//und an die anderen Klassen weitergeleitet wird
+	
 	private File selectedGame;
 	private File[] gameNames;
 	private JComboBox gameList;
-	
-	
+	private BimaruGame bg;
 
 	public String getGamename() {
 		
@@ -27,11 +25,12 @@ public class LevelSelectView extends JPanel implements ActionListener{
 	}
 
 	public LevelSelectView(BimaruGame bimaruGame) {
-		
+		bg=bimaruGame;
 		this.add(new JLabel("Level Selector"));
 		GameNames();
 		DropdownMenu();
 		this.add(gameList);
+		
 		
 	}
 
@@ -60,8 +59,11 @@ public class LevelSelectView extends JPanel implements ActionListener{
 		 	
 		selectedGame =  (File) gameList.getSelectedItem();
 	         
-	         System.out.println(selectedGame.getName());
+	    System.out.println(selectedGame.getName());
+	    
+	    bg=new BimaruGame(selectedGame.getName());
 		
 	}
+	
 
 }
