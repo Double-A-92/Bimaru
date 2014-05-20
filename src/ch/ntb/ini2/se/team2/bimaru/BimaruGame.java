@@ -22,6 +22,7 @@ public class BimaruGame extends JFrame {
 	private GameGridModel ggm;
 	private GameGridView view;
 	private LevelSelectView lsv;
+	private Container contentPane ;
 	//private String gamename="game.xml";
 	
 	
@@ -32,7 +33,7 @@ public class BimaruGame extends JFrame {
 	public BimaruGame() {
 		loadGame("game.xml");		
 		setTitle("Bimaru");
-		Container contentPane = getContentPane();
+		contentPane = getContentPane();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		lsv=new LevelSelectView(this);
@@ -46,10 +47,11 @@ public class BimaruGame extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-	public BimaruGame(String game) {
+	public void update(String game) {
 		loadGame(game);		
 		setTitle("Bimaru");
-		Container contentPane = getContentPane();
+		contentPane.removeAll();
+		contentPane = getContentPane();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		lsv=new LevelSelectView(this);

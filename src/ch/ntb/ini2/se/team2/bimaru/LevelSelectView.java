@@ -62,7 +62,7 @@ public class LevelSelectView extends JPanel implements ActionListener{
 	         
 	    System.out.println(selectedGame.getName());
 	    
-	    bg=new BimaruGame(selectedGame.getName());
+	    bg.update(selectedGame.getName());
 		
 	}
 	
