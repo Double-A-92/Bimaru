@@ -5,13 +5,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * Erzeugt die Toolbar view mit den buttons oberhalb des Spielfeldes
@@ -37,8 +33,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 		this.ggm = bimaruGame.getGGM();
 		this.view = bimaruGame.getView();
 
-		FlowLayout fl = new FlowLayout();
-		setLayout(fl);
+		setLayout(new FlowLayout());
 		addButtons();
 	}
 	
@@ -78,12 +73,25 @@ public class ToolBarView extends JPanel implements ActionListener {
 	 * 
 	 * @author Egemen Yesil
 	 */
+	@Override
 	public void actionPerformed(ActionEvent action) {
 		// if(action.getSource() == this.undo) {}
 		// if(action.getSource() == this.redo) {}
 		if(action.getSource() == this.help) {
-			try {
-				new HelpText();
+			try {				
+				JDialog helpDialog = new JDialog(bimaruGame);
+				helpDialog.setTitle("Anleitung");
+				((JPanel) helpDialog.getContentPane()).setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+				JTextArea ta = new JTextArea();
+				ta.read(new InputStreamReader(getClass().getResourceAsStream("/textfiles/helpText.txt")), "helpText.txt");
+				ta.setEditable(false);
+				helpDialog.add(ta);
+				
+				helpDialog.setResizable(false);
+				helpDialog.pack();
+				helpDialog.setLocationRelativeTo(bimaruGame.getView());
+				helpDialog.setVisible(true);
 			} catch (IOException except) {
 			}
 		}
