@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bimaru>
+    <gameList>
+        <entry>
+            <key>Sehr Einfach 1</key>
+            <value>game_1.xml</value>
+        </entry>
+        <entry>
+            <key>Sehr Einfach 2</key>
+            <value>sehr_einfach_2.xml</value>
+        </entry>
+        <entry>
+            <key>Einfach 1</key>
+            <value>einfach_1.xml</value>
+        </entry>
+        <entry>
+            <key>Schwer 1</key>
+            <value>schwer_1.xml</value>
+        </entry>
+    </gameList>
+</bimaru>

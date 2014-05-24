@@ -2,69 +2,68 @@ package ch.ntb.ini2.se.team2.bimaru;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
-import java.awt.GridLayout;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.net.URISyntaxException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 public class LevelSelectView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -6070731239912690911L;
-	
-	
-	private File selectedGame;
-	private File[] gameNames;
+	@SuppressWarnings("rawtypes")
 	private JComboBox gameList;
 	private BimaruGame bg;
-
-	public String getGamename() {
-		
-		return selectedGame.getName();
-	}
+	private HashMap<String, String> gameListMap;
 
 	public LevelSelectView(BimaruGame bimaruGame) {
-		bg=bimaruGame;
-		this.add(new JLabel("Level Selector"));
-		GameNames();
-		DropdownMenu();
-		this.add(gameList);
+		bg = bimaruGame;
+		this.add(new JLabel("Level-Auswahl:"));
 		
-		
-	}
-
-	public void GameNames(){
-		
+		//Liste aus XML-Datei laden
+		gameListMap = new HashMap<String, String>();	     
 		try {
-			gameNames = new File(getClass().getResource("/games/").toURI()).listFiles();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
+			JAXBContext context = JAXBContext.newInstance(GameList.class);
+			Unmarshaller u = context.createUnmarshaller();
+
+			InputStream is = getClass().getResourceAsStream("/games/gameList.xml");
+			gameListMap = ((GameList) u.unmarshal(is)).getGameList();
+		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		//gameNames = new File("src/games/").listFiles();
-		for( File file : gameNames )
-  		  System.out.println( file.getName() );
 		
-	}
-	
-	
-	public void DropdownMenu(){
-		gameList = new JComboBox(gameNames);
+		//ComboBox generieren
+		gameList = new JComboBox<String>(gameListMap.keySet().toArray(new String[0]));
 		gameList.setEditable(false);
 		gameList.addActionListener(this);
+		this.add(gameList);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		 	
-		selectedGame =  (File) gameList.getSelectedItem();
-	         
-	    System.out.println(selectedGame.getName());
-	    
-	    bg.update(selectedGame.getName());
-		
+	public void actionPerformed(ActionEvent e) {	
+		Object[] options = { "Ja", "Nein" };
+		int eingabe = JOptionPane.showOptionDialog(null, "Möchten Sie wirklich ein neues Spiel laden?", "Spiel Laden",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+		if (eingabe == 0) {
+			String selectedGame =  gameListMap.get(gameList.getSelectedItem().toString());   
+			bg.loadNewGame(selectedGame);
+		}
 	}
-	
+}
 
+@XmlRootElement(name = "bimaru")
+class GameList {
+	private HashMap<String, String> gameList = new HashMap<String, String>();
+	
+	public HashMap<String, String> getGameList() {
+        return gameList;
+    }
+ 
+    public void setGameList(HashMap<String, String> gameList) {
+        this.gameList = gameList;
+    }
 }
