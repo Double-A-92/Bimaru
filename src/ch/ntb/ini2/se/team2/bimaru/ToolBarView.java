@@ -30,9 +30,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 
 	public ToolBarView(BimaruGame bimaruGame) {
 		this.bimaruGame = bimaruGame;
-		this.ggm = bimaruGame.getGGM();
-		this.view = bimaruGame.getView();
-
+		update();
 		setLayout(new FlowLayout());
 		addButtons();
 	}
@@ -195,7 +193,7 @@ public class ToolBarView extends JPanel implements ActionListener {
 	 * 
 	 * @author Egemen Yesil
 	 */
-	protected static ImageIcon createIcon(String path) {
+	private static ImageIcon createIcon(String path) {
 		URL imgURL = ToolBarView.class.getResource(path); 
 		if (imgURL != null) {
 			ImageIcon img = new ImageIcon(imgURL);
@@ -205,5 +203,10 @@ public class ToolBarView extends JPanel implements ActionListener {
 			System.err.println("Couldn't find image in system: " + path);
 			return null;
 		}
+	}
+	
+	public void update() {
+		this.ggm = bimaruGame.getGGM();
+		this.view = bimaruGame.getView();
 	}
 }

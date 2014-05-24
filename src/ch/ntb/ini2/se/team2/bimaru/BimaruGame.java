@@ -1,10 +1,7 @@
 package ch.ntb.ini2.se.team2.bimaru;
 
 import java.awt.Container;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -21,69 +18,58 @@ public class BimaruGame extends JFrame {
 	private static final long serialVersionUID = 2503783248730093300L;
 	private GameGridModel ggm;
 	private GameGridView view;
-	private LevelSelectView lsv;
-	private Container contentPane ;
-	//private String gamename="game.xml";
-	
-	
+	private ToolBarView tbv;
+	private AvailableShipsView asv;
+	private Container contentPane;	
 
 	/**
 	 * Erstellt ein neues Spiel.
 	 */
 	public BimaruGame() {
-		loadGame("game.xml");		
+		loadGame("game_1.xml");		
 		setTitle("Bimaru");
 		contentPane = getContentPane();
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		lsv=new LevelSelectView(this);
-		contentPane.add(lsv);
-		contentPane.add(new ToolBarView(this));
-		contentPane.add(view);
-		contentPane.add(new AvailableShipsView(ggm));
-
-		pack();
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setVisible(true);
-	}
-	public void update(String game) {
-		loadGame(game);		
-		setTitle("Bimaru");
-		contentPane.removeAll();
-		contentPane = getContentPane();
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		lsv=new LevelSelectView(this);
-		contentPane.add(lsv);
-		contentPane.add(new ToolBarView(this));
-		contentPane.add(view);
-		contentPane.add(new AvailableShipsView(ggm));
-
-		pack();
-		setResizable(false);
-		setLocationRelativeTo(null);
-		setVisible(true);
-	}
-
-
-	/**
-	 * Startet das Spiel.
-	 * @param args Kommandozeilenparameter
-	 */
-	public static void main(String[] args) {
-		new BimaruGame();
 		
+		contentPane.add(new LevelSelectView(this));
+		tbv = new ToolBarView(this);
+		contentPane.add(tbv);
+		contentPane.add(view);
+		asv = new AvailableShipsView(ggm);
+		contentPane.add(asv);
+
+		pack();
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setVisible(true);
+	}
+	
+	public void loadNewGame(String game) {	
+		contentPane.remove(view);
+		contentPane.remove(asv);
+		contentPane.invalidate();
+		
+		loadGame(game);
+		tbv.update();
+		contentPane.add(view);	
+		asv = new AvailableShipsView(ggm);
+		contentPane.add(asv);
+		contentPane.revalidate();
+		contentPane.repaint();
+		pack();
+		setLocationRelativeTo(null);
 	}
 
 	public GameGridView getView() {
 		return view;
 	}
+	
 	public GameGridModel getGGM() {
 		return ggm;
 	}
-	public void loadGame(String game){
-		
+	
+	public void loadGame(String game){	
 		try {
 			JAXBContext context = JAXBContext.newInstance(GameGridModel.class);
 			Unmarshaller u = context.createUnmarshaller();
@@ -94,7 +80,14 @@ public class BimaruGame extends JFrame {
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
-	}
+	}	
 	
-
+	/**
+	 * Startet das Spiel.
+	 * @param args Kommandozeilenparameter
+	 */
+	public static void main(String[] args) {
+		new BimaruGame();
+		
+	}
 }
