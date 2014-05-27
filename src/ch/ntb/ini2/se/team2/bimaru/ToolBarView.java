@@ -10,10 +10,9 @@ import java.net.URL;
 import javax.swing.*;
 
 /**
- * Erzeugt die Toolbar view mit den buttons oberhalb des Spielfeldes
+ * Stellt den Toolbar mit den einzelnen Funktionen dar.
  * 
- * @author Smelt Alexander
- * @author Egeman Yesil
+ * @author Egeman Yesil , Smelt Alexander
  */
 
 public class ToolBarView extends JPanel implements ActionListener {
@@ -27,7 +26,12 @@ public class ToolBarView extends JPanel implements ActionListener {
 
 	@SuppressWarnings("unused")
 	private JButton undo, redo, eye, refresh, check, clock, help, save, print;
-
+	
+	/**
+	 * Erstellt einen neuen Toolbar mit den einzelnen Funktionen.
+	 * 
+	 * @param bimaruGame aktuelles Spiel-Objekt
+	 */
 	public ToolBarView(BimaruGame bimaruGame) {
 		this.bimaruGame = bimaruGame;
 		update();
@@ -36,11 +40,10 @@ public class ToolBarView extends JPanel implements ActionListener {
 	}
 	
 	/**
-	 * Gibt den gewünschten Button mit dem dazugehörigen Icon zurück
+	 * Gibt den gewünschten Button mit dem dazugehörigen Icon zurück.
 	 *  
 	 * @param name Name der Funktion zum Beispiel "refresh" 
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private JButton button(String name) {
 		JButton button = new JButton(createIcon("/images/icon/" + name + ".png"));
@@ -52,7 +55,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Fügt die einzelnen Buttons in den Toolbar ein
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private void addButtons() {
 		eye = button("eye");
@@ -69,7 +71,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Erweitert die Buttons mit den dazugehörigen Funktionen die beim Drücken ausgeführt werden sollen 
 	 * 
-	 * @author Egemen Yesil
 	 */
 	@Override
 	public void actionPerformed(ActionEvent action) {
@@ -132,7 +133,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Methode für die Refresh-Funktion
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private void refresh() {
 		ggm.setSolved(false);
@@ -158,7 +158,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Methode für die Überprüfung der gesetzten Spielfelder
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private void checkFieldState() {
 		for (int i = 0; i < ggm.getXSize(); i++) {
@@ -175,7 +174,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Zeigt die Lösung des Spieles auf dem Spielfeld an 
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private void showSolution() {
 		ggm.setGameRunning(false);
@@ -191,7 +189,6 @@ public class ToolBarView extends JPanel implements ActionListener {
 	/**
 	 * Methode zur Einbindung der Icons für die Buttons für den Toolbar
 	 * 
-	 * @author Egemen Yesil
 	 */
 	private static ImageIcon createIcon(String path) {
 		URL imgURL = ToolBarView.class.getResource(path); 
@@ -205,6 +202,10 @@ public class ToolBarView extends JPanel implements ActionListener {
 		}
 	}
 	
+	/**
+	 *Aktualisiert die Spieldaten auf den neuesten Stand 
+	 * 
+	 */
 	public void update() {
 		this.ggm = bimaruGame.getGGM();
 		this.view = bimaruGame.getView();
